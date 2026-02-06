@@ -228,22 +228,6 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/80" />
       </motion.div>
 
-      {/* INTERACTIVE BACKGROUND GLOW */}
-      {isClient && (
-        <motion.div
-          className="absolute top-0 left-0 w-[250px] h-[250px] sm:w-[300px] sm:h-[300px] md:w-[350px] md:h-[350px] rounded-2xl bg-gradient-to-r from-purple-500/15 to-cyan-500/15 blur-3xl pointer-events-none"
-          animate={{
-            x: mousePosition.x - 125,
-            y: mousePosition.y - 125,
-          }}
-          transition={{
-            type: "spring",
-            stiffness: 50,
-            damping: 20,
-          }}
-        />
-      )}
-
       {/* MAIN CONTENT */}
       <div className="relative z-10 min-h-screen flex items-center pt-16 sm:pt-18 md:pt-20 lg:pt-24 xl:pt-28">
         <div className="container mx-auto px-4 sm:px-5 md:px-6 w-full">
@@ -259,25 +243,6 @@ export default function HomePage() {
 
                 {/* OUTER SPINNING ANIMATION FRAMES - SQUARE BASED */}
 
-                {/* Frame 1 - Main spinning frame with gradient */}
-                <motion.div
-                  className="absolute -inset-3 sm:-inset-4 rounded-3xl"
-                  animate={imageLoaded && isClient ? {
-                    rotate: 360,
-                  } : {}}
-                  transition={{
-                    duration: 25,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                  style={{
-                    background: "conic-gradient(from 0deg, transparent 0%, #00ffff 20%, #a855f7 40%, #3b82f6 60%, #00ffff 80%, transparent 100%)",
-                    filter: "blur(4px)",
-                    opacity: 0.7,
-                    borderRadius: '20px', // Square with rounded corners
-                  }}
-                />
-
                 {/* Frame 2 - Inner spinning frame (reverse) */}
                 <motion.div
                   className="absolute -inset-2 sm:-inset-3 rounded-2xl"
@@ -285,7 +250,7 @@ export default function HomePage() {
                     rotate: -360,
                   } : {}}
                   transition={{
-                    duration: 20,
+                    duration: 35,
                     repeat: Infinity,
                     ease: "linear",
                   }}
@@ -296,43 +261,9 @@ export default function HomePage() {
                     WebkitMaskComposite: "xor",
                     padding: "2px",
                     borderRadius: '16px',
+                    opacity: 0.5,
                   }}
                 />
-
-                {/* Floating sound wave particles - SQUARE LAYOUT */}
-                <div className="absolute inset-0">
-                  {/* Place particles at square corners and midpoints */}
-                  {Array.from({ length: 8 }).map((_, i) => {
-                    const angle = (i * 45 * Math.PI) / 180;
-                    const radius = 52;
-                    // Calculate position based on square geometry
-                    const x = 50 + radius * Math.cos(angle);
-                    const y = 50 + radius * Math.sin(angle);
-
-                    return (
-                      <motion.div
-                        key={`sound-wave-${i}`}
-                        className="absolute w-1.5 h-6 rounded-full bg-gradient-to-b from-cyan-400/40 to-purple-400/40"
-                        style={{
-                          left: `${x}%`,
-                          top: `${y}%`,
-                          transform: 'translate(-50%, -50%)',
-                        }}
-                        animate={imageLoaded && isClient ? {
-                          scale: [1, 1.4, 1],
-                          opacity: [0.3, 0.8, 0.3],
-                          height: ["24px", "36px", "24px"],
-                        } : {}}
-                        transition={{
-                          duration: 1.5,
-                          repeat: Infinity,
-                          delay: i * 0.1,
-                          ease: "easeInOut",
-                        }}
-                      />
-                    );
-                  })}
-                </div>
 
                 {/* Professional DJ icons rotating around the square */}
                 <motion.div
@@ -341,7 +272,7 @@ export default function HomePage() {
                     rotate: 360,
                   } : {}}
                   transition={{
-                    duration: 40,
+                    duration: 55,
                     repeat: Infinity,
                     ease: "linear",
                   }}
@@ -356,61 +287,29 @@ export default function HomePage() {
                     return (
                       <motion.div
                         key={`icon-${index}`}
-                        className={`absolute ${color} text-lg sm:text-xl`}
+                        className={`absolute ${color} text-lg sm:text-xl opacity-70`}
                         style={{
                           left: `${x}%`,
                           top: `${y}%`,
                           transform: 'translate(-50%, -50%)',
                         }}
                         animate={imageLoaded && isClient ? {
-                          scale: [1, 1.2, 1],
-                          y: [0, -4, 0],
+                          scale: [1, 1.15, 1],
+                          y: [0, -3, 0],
+                          opacity: [0.6, 0.8, 0.6],
                         } : {}}
                         transition={{
-                          duration: 2,
+                          duration: 3.5,
                           repeat: Infinity,
-                          delay: index * 0.3,
+                          delay: index * 0.4,
                           ease: "easeInOut",
                         }}
                       >
-                        <Icon className="drop-shadow-lg" />
+                        <Icon className="drop-shadow-md" />
                       </motion.div>
                     );
                   })}
                 </motion.div>
-
-                {/* Pulsing light effects at square corners */}
-                {[
-                  { left: "10%", top: "10%" },    // Top-left
-                  { left: "90%", top: "10%" },    // Top-right
-                  { left: "10%", top: "90%" },    // Bottom-left
-                  { left: "90%", top: "90%" },    // Bottom-right
-                  { left: "50%", top: "10%" },    // Top-middle
-                  { left: "90%", top: "50%" },    // Right-middle
-                  { left: "50%", top: "90%" },    // Bottom-middle
-                  { left: "10%", top: "50%" },    // Left-middle
-                ].map((pos, index) => (
-                  <motion.div
-                    key={`light-${index}`}
-                    className="absolute w-2.5 h-2.5 rounded-full bg-gradient-to-r from-cyan-400 to-purple-400"
-                    style={{
-                      left: pos.left,
-                      top: pos.top,
-                      transform: 'translate(-50%, -50%)',
-                      filter: 'blur(2px)',
-                    }}
-                    animate={imageLoaded && isClient ? {
-                      scale: [1, 1.8, 1],
-                      opacity: [0.4, 0.8, 0.4],
-                    } : {}}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      delay: index * 0.25,
-                      ease: "easeInOut",
-                    }}
-                  />
-                ))}
 
                 {/* MAIN SQUARE IMAGE CONTAINER */}
                 <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/5 bg-gradient-to-br from-gray-900/90 to-black/90 shadow-2xl backdrop-blur-sm">
